@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gvergine.mpp2jira.controllers.AppController">
+   <children>
+      <MenuBar>
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+                  <MenuItem mnemonicParsing="false" onAction="#loadMpp" text="Load .mpp" />
+              <MenuItem mnemonicParsing="false" onAction="#exit" text="Close" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <Accordion fx:id="topAccordion" VBox.vgrow="NEVER">
+        <panes>
+          <TitledPane fx:id="loginInfoPane" animated="false">
+               <content>
+                  <GridPane alignment="CENTER" hgap="5.0" vgap="5.0">
+                    <columnConstraints>
+                      <ColumnConstraints />
+                      <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints vgrow="ALWAYS" />
+                      <RowConstraints vgrow="ALWAYS" />
+                        <RowConstraints vgrow="ALWAYS" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="Jira URL:" />
+                        <TextField fx:id="jiraUrlTextField" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
+                        <Label text="Personal Access Token:" GridPane.rowIndex="1" />
+                        <PasswordField fx:id="jiraTokenTextField" promptText="Your Jira Personal Access Token (PTA)" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Button mnemonicParsing="false" onAction="#setLoginInfo" text="Update" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS" />
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </GridPane>
+               </content>
+               <graphic>
+                  <HBox alignment="CENTER" spacing="10.0">
+                     <children>
+                        <ImageView fx:id="jiraAvatarImageView" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" />
+                        <ProgressIndicator fx:id="loginProgress" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" prefHeight="32.0" prefWidth="32.0" />
+                        <Label fx:id="jiraLoginInfoLabel" text="Login info">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+               </graphic>
+          </TitledPane>
+        </panes>
+      </Accordion>
+      <ToolBar prefHeight="40.0" prefWidth="200.0">
+        <items>
+          <Button fx:id="refreshButton" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
+            <Button fx:id="syncButton" mnemonicParsing="false" onAction="#syncDatesInJira" text="Sync dates in Jira" />
+        </items>
+      </ToolBar>
+      <AnchorPane fx:id="treeViewPane" VBox.vgrow="ALWAYS" />
+   </children>
+</VBox>
