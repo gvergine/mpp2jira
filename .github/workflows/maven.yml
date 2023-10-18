@@ -28,4 +28,11 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B package --file pom.xml
-
+    - name: Archive mpp2jira.jar
+      uses: actions/upload-artifact@v3
+      with: 
+        path: shade/mpp2jira.jar
+    - name: Archive mpp2jira.exe
+      uses: actions/upload-artifact@v3
+      with: 
+        path: shade/mpp2jira.exe
