@@ -104,6 +104,52 @@
                 </execution>
             </executions>
         </plugin>
+        
+        <!-- LAUNCH4J -->
+            <plugin>
+                <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                <artifactId>launch4j-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>l4j-clui</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>launch4j</goal>
+                        </goals>
+                            <configuration>
+                            <headerType>gui</headerType>
+                            <jar>shade/mpp2jira.jar</jar>
+                            <outfile>shade/mpp2jira.exe</outfile>
+                           <!-- <downloadUrl>http://java.com/download</downloadUrl> -->
+                            <!--<classPath>
+                                <mainClass>de.thz.cameracontrol.server.Server</mainClass>
+                            </classPath>-->
+                            <icon>src\main\resources\gvergine\mpp2jira\mpp2jira.ico</icon>
+                            <jre>
+								<path>%JAVA_HOME%;%PATH%</path>
+                                <requires64Bit>false</requires64Bit>
+                               <!-- <minVersion>11</minVersion>
+                                <jdkPreference>preferJre</jdkPreference>
+                                <runtimeBits>32</runtimeBits> -->
+                            </jre>
+                            <versionInfo>
+                                <fileVersion>1.0.0.0</fileVersion>
+                                <txtFileVersion>${project.version}</txtFileVersion>
+                                <fileDescription>${project.name}</fileDescription>
+                                <copyright>C</copyright>
+                                <productVersion>1.0.0.0</productVersion>
+                                <txtProductVersion>1.0.0.0</txtProductVersion>
+                                <productName>${project.name}</productName>
+                                <internalName>Mpp2Jira</internalName>
+                                <originalFilename>mpp2jira.exe</originalFilename>
+                            </versionInfo>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <!-- LAUNCH4J ENDE -->
+        
     </plugins>
     </build>
 </project>

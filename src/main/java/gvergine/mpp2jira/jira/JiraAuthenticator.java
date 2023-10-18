@@ -113,6 +113,7 @@ public class JiraAuthenticator
 
 	private void onFailedAuthentication(Throwable throwable)
 	{
+		throwable.printStackTrace();
 		authenticating.set(false);
 		user.set(null);
 		lastError.set(throwable.getMessage());

@@ -11,6 +11,7 @@ import gvergine.mpp2jira.jira.JiraAuthenticator;
 import gvergine.mpp2jira.jira.JiraIssueRetriever;
 import gvergine.mpp2jira.model.TaskNode;
 import gvergine.mpp2jira.msproject.MSProjectTaskLoder;
+import gvergine.mpp2jira.utils.FileWatcher;
 import gvergine.mpp2jira.utils.Settings;
 import gvergine.mpp2jira.views.AppTreeTableView;
 import gvergine.mpp2jira.views.RetentionFileChooser;
@@ -44,6 +45,9 @@ public class AppController extends ControllerWithStage
 
 	//model
 	private TaskNode rootTaskNode;
+	
+	//watcher
+	private FileWatcher filewatcher;
 
 
 	// login
@@ -75,16 +79,16 @@ public class AppController extends ControllerWithStage
 		});
 
 	}
-	
+
 	@Override
 	public void setStage(Stage stage) {
 		super.setStage(stage);
-		
+
 		stage.titleProperty().bind(Bindings.when(currentDocumentProperty.isNotNull()).then(
-						Bindings.concat(currentDocumentProperty," - ",APP_NAME)
+				Bindings.concat(currentDocumentProperty," - ",APP_NAME)
 				).otherwise(
 						Bindings.concat(APP_NAME)
-				));
+						));
 	}
 
 
@@ -106,22 +110,25 @@ public class AppController extends ControllerWithStage
 		treeViewPane.getChildren().add(treeTableView);		
 
 		//App.runInThread(() -> {
-		
+
 		//Platform.runLater(() -> {
-			jiraAuthenticator.authenticate(jiraUrlTextField.textProperty().get(), jiraTokenTextField.textProperty().get());
+		jiraAuthenticator.authenticate(jiraUrlTextField.textProperty().get(), jiraTokenTextField.textProperty().get());
 		//});
 	}
 
 	@FXML
 	private void loadMpp(ActionEvent event) {
-		var treeTableView = AppTreeTableView.build();
-
-		treeViewPane.getChildren().clear();
-		
-		currentDocumentProperty.set(null);
-
-		
-		treeViewPane.getChildren().add(treeTableView);
+		if (filewatcher != null) {
+			filewatcher.stopThread();
+			try
+			{
+				filewatcher.join();
+			} catch (InterruptedException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 
 
 		fileChooser.setTitle("Load Microsoft Project (.mpp) file");
@@ -130,6 +137,28 @@ public class AppController extends ControllerWithStage
 				);
 		var file = fileChooser.showOpenDialog(treeViewPane.getScene().getWindow());
 		if (file == null) return;
+
+		reloadMpp(file);
+
+		filewatcher = new FileWatcher(file, () -> {
+			App.runInPlatformThread(() -> {
+				reloadMpp(file);
+			});
+		});
+		filewatcher.setDaemon(true);
+		filewatcher.start();
+
+	}
+	
+	private void reloadMpp(File file) {
+		var treeTableView = AppTreeTableView.build();
+
+		treeViewPane.getChildren().clear();
+
+		currentDocumentProperty.set(null);
+
+
+		treeViewPane.getChildren().add(treeTableView);
 
 		currentDocumentProperty.set(file.getName());
 
@@ -145,6 +174,7 @@ public class AppController extends ControllerWithStage
 
 
 		refreshJira();
+
 
 	}
 
@@ -191,7 +221,7 @@ public class AppController extends ControllerWithStage
 		jiraAvatarImageView.setManaged(!authenticathing);
 		loginProgress.setVisible(authenticathing);
 		loginProgress.setManaged(authenticathing);
-		
+
 		if (jiraAuthenticator.userProperty().get() == null) {
 			jiraAvatarImageView.setVisible(false);
 			jiraAvatarImageView.setManaged(false);
