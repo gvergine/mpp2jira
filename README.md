@@ -14,7 +14,7 @@ Sync due dates from Project to Jira
 
 2. Add a column named "Jira" with the Jira ticket (e.g. AS-123) in the Project file
 
-![msproject-screnshot](images/msproject-screnshot.png "msproject-screnshot").
+![msproject-screenshot](images/msproject-screenshot.png "msproject-screenshot").
 
 3. Start mpp2jira and update the Jira URL and the Personal Access Token
 
@@ -22,4 +22,4 @@ Sync due dates from Project to Jira
 
 5. Select the tasks whose due date should be updated in jira, and synchronize them with the button "Sync dates in Jira"
 
-![mpp2jira-screnshot](images/mpp2jira-screnshot.png "mpp2jira-screnshot").
+![mpp2jira-screenshot](images/mpp2jira-screenshot.png "mpp2jira-screenshot").
