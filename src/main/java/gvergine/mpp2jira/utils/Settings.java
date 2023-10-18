@@ -8,7 +8,7 @@ import java.util.Properties;
 
 public class Settings
 {
-	private static final File propertiesFile = new File(new File(System.getProperty("user.home")), ".mpp2java");
+	private static final File propertiesFile = new File(new File(System.getProperty("user.home")), ".mpp2jira");
 	private static final String JIRA_URL_KEY = "jiraUrl";
 	private static final String JIRA_TOKEN_KEY = "jiraToken";
 	private static final String LOAD_DIR = "loadDir";
