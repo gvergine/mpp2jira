@@ -32,6 +32,9 @@ public class Settings
 		}
 		catch (IOException e)
 		{
+			jiraUrl = "";
+			jiraToken = "";
+			loadDir = System.getProperty("user.home");
 			e.printStackTrace();
 		}
 		
@@ -49,6 +52,7 @@ public class Settings
     
     public String getLoadDir()
     {
+    	
     	return loadDir;
     }
     
